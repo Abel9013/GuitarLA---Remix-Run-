@@ -1,6 +1,7 @@
-import { useLoaderData } from '@remix-run/react'
+import { useLoaderData, useOutletContext, Outlet } from '@remix-run/react'
+// import {  } from '@remix-run/react'
 import { getGuitarras } from "~/models/guitarras.server"
-import Guitarra from '~/components/guitarra'
+import ListadoGuitarras from '~/components/listadoGuitarras'
 import styles from '~/styles/guitarras.css'
 export function meta(){
   return[
@@ -28,21 +29,12 @@ export async function loader() {
 }
 
 function Tienda() {
+  const data = useOutletContext()
   const guitarras = useLoaderData()
   return (
     <main className='contenedor' >
-      <h2 className="heading">Nuestra Coleccion</h2>
-      {guitarras?.length && (
-        <div className='guitarras-grid'>
-            {guitarras.map( guitarra=>(
-                <Guitarra
-                  guitarra = {guitarra?.attributes}
-                  key={guitarra.id}
-                  
-                />
-            ))}
-        </div> 
-      )}
+     <ListadoGuitarras guitarras={guitarras} /> 
+     <Outlet />
     </main>
   )
 }
